@@ -1,0 +1,26 @@
+{
+  "name": "airtable-api-explorer",
+  "version": "1.0.0",
+  "description": "Airtable API Explorer project",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlouie95618/airtable-api-explorer.git"
+  },
+  "keywords": [
+    "airtable",
+    "api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jlouie95618/airtable-api-explorer/issues"
+  },
+  "homepage": "https://github.com/jlouie95618/airtable-api-explorer#readme",
+  "dependencies": {
+    "requestify": "^0.1.17"
+  }
+}
