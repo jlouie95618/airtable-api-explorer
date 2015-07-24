@@ -3,31 +3,32 @@ var requestify = require('requestify');
 function getReq (url, apiKey, callback) {
 	requestify.get(url, {
 		headers: {
-			"Authorization": 'Bearer '+apiKey
+			"Authorization": 'Bearer '+apiKey,
+			// "Access-Control-Allow-Origin": "http://localhost:8000"
 		}
-	}).then(function(response)) {
+	}).then(function(response) {
 		callback(response.getBody());
-	}
+	});
 }
 
 function postReq (url, apiKey, body, callback) {
 	requestify.post(url, body, {
 		headers: {
-        'X-Forwarded-By': 'me'
+        	"Authorization": 'Bearer '+apiKey
     	},
-	}).then(function(response)) {
+	}).then(function(response) {
 		callback(response.getBody());
-	}
+	});
 }
 
 function putReq(url, apiKey, body, callback) {
 	requestify.put(url, body, {
 		headers: {
-        'X-Forwarded-By': 'me'
+        	"Authorization": 'Bearer '+apiKey
     	},
-	}).then(function(response)) {
+	}).then(function(response) {
 		callback(response.getBody());
-	}
+	});
 }
 
 module.exports = {
