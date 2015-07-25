@@ -62,19 +62,22 @@ var req = require('./req.js');
 
 var API_KEY = 'keyveGbANOdAYCs2x';
 
-$(document).on('change', '.api-version', function(eventData) {
-    var selectedValue = $('.api-version').val();
-    if (selectedValue === 'curl') {
-        console.log('curl happened!');
-        $('.api-version-curl').show();
-        $('.api-version-node').hide();
-    } else if (selectedValue === 'node') {
-        console.log('node happened!');
-        $('.api-version-node').show();
-        $('.api-version-curl').hide();
-    }
-});
+$(document).ready(function() {
 
+    $('.api-version').change(function(eventData) {
+        var selectedValue = $('.api-version').val();
+        if (selectedValue === 'curl') {
+            console.log('curl happened!');
+            $('.api-version-curl').show();
+            $('.api-version-node').hide();
+        } else if (selectedValue === 'node') {
+            console.log('node happened!');
+            $('.api-version-node').show();
+            $('.api-version-curl').hide();
+        }
+    });
+
+<<<<<<< HEAD
 $(document).on('change', '.request-types', function(eventData) {
     var selectedValue = $('.request-types').val();
     console.log(selectedValue);
@@ -105,6 +108,28 @@ $(document).on('change', '.request-types', function(eventData) {
                 console.log(res);
             });
     }
+=======
+    $('.request-types').change(function(eventData) {
+        var selectedValue = $('.request-types').val();
+        console.log(selectedValue);
+        if (selectedValue === 'get') {
+            requestify.getReq("https://api.airtable.com/v0/app9uvKeuVL1pOfCD/Restaurants?limit=3&view=Main%20View?forceInsecureCrossDomain=ALLOW_ANY_DOMAIN", "keyrpG4FPpEqZ0ubg", function(json){
+                console.log(JSON.stringify(3, null, json));
+            });
+        } else if (selectedValue === 'post') {
+
+        } else if (selectedValue === 'patch') {
+
+        } else if (selectedValue === 'delete') {
+
+        }
+    });
+
+    $('.send-button').click(function(eventData) {
+        console.log('send button pressed!');
+    });
+
+>>>>>>> 220dceb133e34c50e9ca2a832b46432b4f9b26fa
 });
 },{"./req.js":1}],3:[function(require,module,exports){
 // Copyright 2010-2012 Mikeal Rogers
