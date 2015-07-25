@@ -1,48 +1,80 @@
-var requestify = require('requestify'); 
 var request = require('request');
 
-var URL_SUFFIX = '&forceInsecureCrossDomain=ALLOW_ANY_DOMAIN';
+var URL_SUFFIX = 'forceInsecureCrossDomain=ALLOW_ANY_DOMAIN';
 
-function getReq (url, apiKey, callback) {
-	url += URL_SUFFIX;
-	requestify.get(url, {
+function getReq(aurl, apiKey, callback) {
+	aurl = aurl + '&' + URL_SUFFIX;
+	console.log('get url:', aurl);
+	request({
+		method: 'GET',
+		url: aurl,
+		json: true,
 		headers: {
-			"Authorization": 'Bearer '+apiKey
+			"Authorization": 'Bearer ' + apiKey
 		}
-	}).then(function(response) {
-		callback(response.getBody());
+	}, function(error, response, body) {
+		if (error) {
+			return console.error('upload failed:', error);
+		}
+		console.log(body);
+		callback(body);
 	});
 }
 
-function postReq (url, apiKey, body, callback) {
-	requestify.post(url, body, {
+function postReq(aurl, apiKey, abody, callback) {
+	aurl += "?";
+	aurl += URL_SUFFIX;
+	request({
+		method: 'POST',
+		url: aurl,
+		body: abody,
+		json: true,
 		headers: {
-        	"Authorization": 'Bearer '+apiKey
-    	},
-    	dataType: 'json' // try this or add as header
-	}).then(function(response) {
-		callback(response.getBody());
+			"Authorization": 'Bearer ' + apiKey,
+			"Content-type": "application/json"
+		}
+	}, function(error, response, body) {
+		if (error) {
+			return console.error('upload failed:', error);
+		}
+		callback(body);
 	});
 }
 
-function putReq(url, apiKey, body, callback) {
-	requestify.put(url, body, {
+function putReq(aurl, apiKey, abody, callback) {
+	aurl += "?";
+	aurl += URL_SUFFIX;
+	request({
+		method: 'PUT',
+		url: aurl,
+		body: abody,
+		json: true,
 		headers: {
-        	"Authorization": 'Bearer '+apiKey,
-    	},
-    	dataType: 'json' // try this or add as header
-	}).then(function(response) {
-		callback(response.getBody ());
+			"Authorization": 'Bearer ' + apiKey,
+			"Content-type": "application/json"
+		}
+	}, function(error, response, body) {
+		if (error) {
+			return console.error('upload failed:', error);
+		}
+		callback(body);
 	});
 }
 
-function deleteReq(url, apiKey, callback) {
-	requestify.delete(url, {
+function deleteReq(aurl, apiKey, callback) {
+	aurl = aurl + '?' + URL_SUFFIX;
+	request({
+		method: 'DELETE',
+		url: aurl,
+		json: true,
 		headers: {
-        	"Authorization": 'Bearer '+apiKey,
-    	},
-	}).then(function(respose) {
-		callback(response.getBody());
+			"Authorization": 'Bearer ' + apiKey,
+		}
+	}, function(error, response, body) {
+		if (error) {
+			return console.error('upload failed:', error);
+		}
+		callback(body);
 	});
 }
 

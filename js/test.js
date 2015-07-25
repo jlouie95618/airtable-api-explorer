@@ -1,4 +1,4 @@
-"use strict";
+// "use strict";
 // Boilerplate to know that we're in business...
 console.log('hello world');
 console.log($);
@@ -9,7 +9,11 @@ var API_KEY = 'keyveGbANOdAYCs2x';
 var GET_EXAMPLE_URL = 'https://api.airtable.com/v0/app9uvKeuVL1pOfCD/Special%20Diets?limit=3&view=Main%20View';
 var POST_EXAMPLE_URL = 'https://api.airtable.com/v0/app9uvKeuVL1pOfCD/Special%20Diets';
 var PUT_EXAMPLE_URL = 'https://api.airtable.com/v0/app9uvKeuVL1pOfCD/Special%20Diets/recOcqnThpdLJg2or';
-var DELETE_EXAMPLE_URL;
+var DELETE_EXAMPLE_URL = 'https://api.airtable.com/v0/app9uvKeuVL1pOfCD/Special%20Diets/VALID_RECORD_ID'
+var POST_EXAMPLE_BODY = '{"fields": {\n\t"Diet": "Vegetarian"\n\t}\n}';
+var PUT_EXAMPLE_BODY = '{"fields": {\n\t"Diet": "Vegan",\n\t"Friendly Restaurants": ["rec4yyy8mHQWfQizN","recvw2vwaxlCt5tzW"]\n\t}\n}';
+
+// var PUT_EXAMPLE_BODY = '{\"fields\": {\"Diet\": \"Vegetarian\"}}';
 
 $(document).ready(function() {
 
@@ -37,8 +41,12 @@ $(document).ready(function() {
             filler = GET_EXAMPLE_URL;
         } else if (method === 'post') {
             filler = POST_EXAMPLE_URL;
+            $('.request-body-text').text(POST_EXAMPLE_BODY);
         } else if (method === 'put') {
             filler = PUT_EXAMPLE_URL;
+            $('.request-body-text').text(PUT_EXAMPLE_BODY);
+        } else if (method === 'delete') {
+            filler = DELETE_EXAMPLE_URL;
         } else {
             filler = '';
         }
@@ -48,6 +56,9 @@ $(document).ready(function() {
 
     $('.send-button').click(function(eventData) {
         var body = $('.request-body-text').val();
+        if (body) {
+            var body = JSON.parse(body);
+        }
         var url = $('.url-field').val() + '';
         var response = '';
 
@@ -57,31 +68,38 @@ $(document).ready(function() {
         console.log('body: ', body);
 
         if (method === 'get') {
+            console.log('sending get request');
             req.getReq(url, API_KEY, function(res) {
-                console.log(url, API_KEY);
                 response = JSON.stringify(res, null, 3);
+                $('.response-text').text(response);
             });
         } else if (method === 'post') {
             req.postReq(url, API_KEY, body, function(res) {
-                // console.log(res);
-                response = res;
+                response = JSON.stringify(res, null, 3);
+                $('.response-text').text(response);
+                reloadAirtable();
             });
         } else if (method === 'put') {
+            console.log('putting ', url, API_KEY, body);
             req.putReq(url, API_KEY, body, function(res) {
-                // console.log(res);
-                response = res;
+                console.log(res);
+                response = JSON.stringify(res, null, 3);
+                $('.response-text').text(response);
+                reloadAirtable();
             });
-        } else if (method === 'patch') {
-           
+        } else if (method === 'delete') {
+            req.deleteReq(url, API_KEY, function(res) {
+                console.log(res);
+                response = JSON.stringify(res, null, 3);
+                $('.response-text').text(response);
+                reloadAirtable();
+            });
         }
-
-        $('.response-text').text(response);
-
     });
 
 
-    setInterval(500, function() {
+    function reloadAirtable() {
         $('iframe').attr('src', $('iframe').attr('src'));
-    });
+    }
 
 });
