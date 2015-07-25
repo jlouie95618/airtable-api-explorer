@@ -1,7 +1,10 @@
 var requestify = require('requestify'); 
 var request = require('request');
 
+var URL_SUFFIX = '&forceInsecureCrossDomain=ALLOW_ANY_DOMAIN';
+
 function getReq (url, apiKey, callback) {
+	url += URL_SUFFIX;
 	requestify.get(url, {
 		headers: {
 			"Authorization": 'Bearer '+apiKey
@@ -33,16 +36,13 @@ function putReq(url, apiKey, body, callback) {
 	});
 }
 
-function patchReq(aurl, apiKey, abody, callback) {
-	request.patch({
-		url: aurl,
-		json: true,
+function deleteReq(url, apiKey, callback) {
+	requestify.delete(url, {
 		headers: {
-			"Authorization": 'Bearer '+apiKey,
-		},
-		body: abody
-	}, function(error, response,body) {
-		callback(body);
+        	"Authorization": 'Bearer '+apiKey,
+    	},
+	}).then(function(respose) {
+		callback(response.getBody());
 	});
 }
 
@@ -50,5 +50,5 @@ module.exports = {
 	getReq: getReq,
 	postReq: postReq,
 	putReq: putReq,
-	patchReq: patchReq
+	deleteReq: deleteReq
 };
