@@ -9,7 +9,7 @@ var API_KEY = 'keyveGbANOdAYCs2x';
 var GET_EXAMPLE_URL = 'https://api.airtable.com/v0/app9uvKeuVL1pOfCD/Special%20Diets?limit=3&view=Main%20View';
 var POST_EXAMPLE_URL = 'https://api.airtable.com/v0/app9uvKeuVL1pOfCD/Special%20Diets';
 var PUT_EXAMPLE_URL = 'https://api.airtable.com/v0/app9uvKeuVL1pOfCD/Special%20Diets/recOcqnThpdLJg2or';
-var DELETE_EXAMPLE_URL = 'https://api.airtable.com/v0/app9uvKeuVL1pOfCD/Special%20Diets/VALID_RECORD_ID'
+var DELETE_EXAMPLE_URL = 'https://api.airtable.com/v0/app9uvKeuVL1pOfCD/Special%20Diets/VALID_RECORD_ID';
 var POST_EXAMPLE_BODY = '{"fields": {\n\t"Diet": "Vegetarian"\n\t}\n}';
 var PUT_EXAMPLE_BODY = '{"fields": {\n\t"Diet": "Vegan",\n\t"Friendly Restaurants": ["rec4yyy8mHQWfQizN","recvw2vwaxlCt5tzW"]\n\t}\n}';
 
@@ -55,9 +55,15 @@ $(document).ready(function() {
     });
 
     $('.send-button').click(function(eventData) {
-        var body = $('.request-body-text').val();
+        var body;
+
+        if (inputMethod === 'raw') {
+            body = $('.request-body-text').val();
+        } else if (inputMethod === 'form-data') {
+            body = generateObjectWithFormData();
+        }
         if (body) {
-            var body = JSON.parse(body);
+            body = JSON.parse(body);
         }
         var url = $('.url-field').val() + '';
         var response = '';
@@ -88,6 +94,7 @@ $(document).ready(function() {
                 reloadAirtable();
             });
         } else if (method === 'delete') {
+            //eval("function(){alert ('hi');}");
             req.deleteReq(url, API_KEY, function(res) {
                 console.log(res);
                 response = JSON.stringify(res, null, 3);
@@ -101,5 +108,23 @@ $(document).ready(function() {
     function reloadAirtable() {
         $('iframe').attr('src', $('iframe').attr('src'));
     }
+
+    function generateObjectWithFormData() {
+        var result = {};
+        // result[] = $('.');
+        console.log($('.form-data').val());
+        return result;
+    }
+
+    $('.request-body-input-style').change(function(eventData) {
+        inputMethod = $('input[name=data-input]:radio:checked').val();
+        if (inputMethod === 'raw') {
+            $('.request-body-text').show();
+            $('.request-body-form').hide();
+        } else if (inputMethod === 'form-data') {
+            $('.request-body-form').show();
+            $('.request-body-text').hide();
+        }
+    });
 
 });

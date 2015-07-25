@@ -16,19 +16,15 @@
             }
 
                 .request-types {
-                    display: inline-block;
-                    float: left;
+
                 }  
 
                 .url-field {
-                    display: inline-block;
-                    float: left;
                     width: 73%;
                 }
 
                 .send-button {
-                    /*display: inline-block;*/
-                    /*float: left;*/
+
                 }
 
             .header {
@@ -43,8 +39,30 @@
 
     }
 
+        .request-body-title {
+            display: inline-block;
+            float: left;
+        }
+
+        .request-body-input-style {
+
+        }
+
+            .raw {
+
+            }
+
+            .form-data {
+
+            }
+
         .request-body-text {
             width: 98%;
+            display: block;
+        }
+
+        .request-body-form {
+            display: none;
         }
 
     .response {

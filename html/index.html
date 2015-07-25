@@ -25,13 +25,11 @@
                     <option value="put">PUT - update</option>
                     <option value="delete">DELETE - delete</option>
                 </select>
-                <form>
-                    <input class="url-field" type="text" name="url">
-                </form>
+                <input class="url-field" type="text" name="url" placeholder="http request url">
                 <button class="send-button">Send!</button>
             </div>
             <div class="header">
-                <form>
+                <div>
                     Headers: 
                     <div>
                         <input type="text" name="authorization" value="Authorization"> : 
@@ -41,15 +39,44 @@
                         <input type="text" name="authorization" value="Content-type"> : 
                         <input type="text" name="apiKey" value="application/json">
                     </div>
-                </form>
+                </div>
             </div>
         </div>
+
+
         <div class="api-version-node">
             HELLO WORLD!
         </div>
         <div class="request-body">
             <div class="request-body-title">Body:</div>
+
+
+
+
+            <div class="request-body-input-style">
+                <input class="raw" type="radio" name="data-input" value="raw" checked>Raw
+                <input class="form-data" type="radio" name="data-input" value="form-data">Form Data
+            </div> 
+
+
+
+
             <textarea class="request-body-text" rows="10"></textarea>
+
+            <div class="request-body-form">
+                <div class="request-body-form-element">
+                    <div class="request-body-form-input">
+                        <input class="key" type="text" name="key">
+                        <input class="value" type="text" name="value">
+                        <!-- <select>
+                            <option>asdf</option>
+                            <option>asdf</option>
+                            <option>asdf</option>        
+                        </select> -->
+                    </div>
+                </div>
+            </div>
+
         </div>
         <div class="response">
             <div class="response-title">Response:</div>
@@ -61,7 +88,7 @@
     <div class="column-2">
        <h1>Chosen Base</h1>
         <div class="airtable-embed" width="100%" height="533px" data-embed-id="shrhAHNbf1UYjMVr4" data-layout="grid"><a class="airtable-embed-link" href="https://airtable.com/shrhAHNbf1UYjMVr4">Open "Main View"</a><a class="airtable-embed-attribution" href="https://airtable.com">online database powered by Airtable <img src="https://static.airtable.com/images/airtable_database@2x.png"/></a></div><script id="airtable-embed-script" async defer src="https://static.airtable.com/js/embed/airtable_embed.js"></script>
-       
+    
     </div>
 
 </body>
