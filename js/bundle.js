@@ -62,8 +62,21 @@ var req = require('./req.js');
 
 var API_KEY = 'keyveGbANOdAYCs2x';
 
-$(document).on('change', '.requestTypes', function(eventData) {
-    var selectedValue = $('.requestTypes').val();
+$(document).on('change', '.api-version', function(eventData) {
+    var selectedValue = $('.api-version').val();
+    if (selectedValue === 'curl') {
+        console.log('curl happened!');
+        $('.api-version-curl').show();
+        $('.api-version-node').hide();
+    } else if (selectedValue === 'node') {
+        console.log('node happened!');
+        $('.api-version-node').show();
+        $('.api-version-curl').hide();
+    }
+});
+
+$(document).on('change', '.request-types', function(eventData) {
+    var selectedValue = $('.request-types').val();
     console.log(selectedValue);
     if (selectedValue === 'get') {
         req.getReq(url, API_KEY, function(res) {

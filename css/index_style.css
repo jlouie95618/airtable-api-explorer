@@ -1,0 +1,61 @@
+.column-1 {
+    float: left;
+    width: 50%;
+}
+
+    .api-version {
+
+    }
+
+        .api-version-curl {
+            display: block;
+        }
+
+            .request-form {
+
+            }
+
+                .request-types {
+                    display: inline-block;
+                    float: left;
+                }  
+
+                .url-field {
+                    display: inline-block;
+                    float: left;
+                    width: 73%;
+                }
+
+                .send-button {
+                    /*display: inline-block;*/
+                    /*float: left;*/
+                }
+
+            .header {
+
+            }
+
+        .api-version-node {
+            display: none;
+        }
+
+    .request-body {
+
+    }
+
+        .request-body-text {
+            width: 90%;
+        }
+
+    .response {
+
+    }
+
+        .response-text {
+            width: 90%;
+        }
+
+.column-2 {
+    float: left;
+    width: 50%;
+}
