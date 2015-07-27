@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/jlouie95618/airtable-api-explorer#readme",
   "dependencies": {
+    "airtable": "^0.2.2",
     "express": "^4.13.1",
     "fs": "0.0.2",
     "https": "^1.0.0",

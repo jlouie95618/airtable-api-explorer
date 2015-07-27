@@ -15,7 +15,11 @@
 
             }
 
-                .request-types {
+                .request-types-curl {
+
+                }  
+
+                .request-types-node {
 
                 }  
 
@@ -45,7 +49,7 @@
         }
 
         .request-body-input-style {
-
+            display: block;
         }
 
             .raw {

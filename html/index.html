@@ -12,13 +12,16 @@
     <div class="column-1">
        <h1>Airtable API</h1>
        Please select a version of the API to use:
-       <select class="api-version">
-           <option value="curl">Curl</option>
-           <option value="node">Node</option>
-       </select>
+       
+        <select class="api-version">
+            <option value="curl">Curl</option>
+            <option value="node">Node</option>
+        </select>
+
+
         <div class="api-version-curl">
             <div class="request-form">
-                <select class="request-types">
+                <select class="request-types-curl">
                     <option></option>
                     <option value="get">GET - list/retrieve</option>
                     <option value="post">POST - create</option>
@@ -45,7 +48,16 @@
 
 
         <div class="api-version-node">
-            HELLO WORLD!
+            <div class="request-form">
+                <select class="request-types-node">
+                    <option></option>
+                    <option value="get">list/retrieve</option>
+                    <option value="post">create</option>
+                    <option value="put">update</option>
+                    <option value="delete">delete</option>
+                </select>
+                <button class="send-button">Send!</button>
+            </div>
         </div>
         <div class="request-body">
             <div class="request-body-title">Body:</div>

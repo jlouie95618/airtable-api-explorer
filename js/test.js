@@ -4,6 +4,7 @@ console.log('hello world');
 console.log($);
 console.log(_);
 var req = require('./req.js');
+var Airtable = require('airtable');
 
 var API_KEY = 'keyveGbANOdAYCs2x';
 var GET_EXAMPLE_URL = 'https://api.airtable.com/v0/app9uvKeuVL1pOfCD/Special%20Diets?limit=3&view=Main%20View';
@@ -13,30 +14,42 @@ var DELETE_EXAMPLE_URL = 'https://api.airtable.com/v0/app9uvKeuVL1pOfCD/Special%
 var POST_EXAMPLE_BODY = '{"fields": {\n\t"Diet": "Vegetarian"\n\t}\n}';
 var PUT_EXAMPLE_BODY = '{"fields": {\n\t"Diet": "Vegan",\n\t"Friendly Restaurants": ["rec4yyy8mHQWfQizN","recvw2vwaxlCt5tzW"]\n\t}\n}';
 
-// var PUT_EXAMPLE_BODY = '{\"fields\": {\"Diet\": \"Vegetarian\"}}';
+var GET_NODE = 'base(\'Special Diets\').find(\'recddHv5ovH4Z8znn\', function(err, record) {\n    if (err) { console.log(err); return; }\n    console.log(record);\n});';
+var POST_NODE = 'base(\'Special Diets\').create({\n"Diet": "Vegan",\n"Friendly Restaurants": [\n"rec4yyy8mHQWfQizN",\n    "recvw2vwaxlCt5tzW"\n  ]\n}, function(err, record) {\n    if (err) { console.log(err); return; }\n    console.log(record);\n});';
+var PUT_NODE = 'base(\'Special Diets\').update(\'recOcqnThpdLJg2or\', {\n  "Diet": "Vegan"\n}, function(err, record) {\n    if (err) { console.log(err); return; }\n    console.log(record);\n});';
+var DELETE_NODE = 'base(\'Special Diets\').destroy(\'API_KEY\', function(err, deletedRecord) {\n    if (err) { console.log(err); return; }\n    console.log(\'Deleted record \', deletedRecord.id);\n});';
+
+var base = new Airtable({
+    apiKey: API_KEY
+}).base('app9uvKeuVL1pOfCD');
 
 $(document).ready(function() {
 
     //Place for jQuery code!!!
 
     var method;
+    var inputMethod;
+    var curlOrNode;
 
     $('.api-version').change(function(eventData) {
-        var selectedValue = $('.api-version').val();
-        if (selectedValue === 'curl') {
+        curlOrNode = $('.api-version').val();
+        if (curlOrNode === 'curl') {
             console.log('curl happened!');
             $('.api-version-curl').show();
             $('.api-version-node').hide();
-        } else if (selectedValue === 'node') {
+            $('.request-body-input-style').show();
+        } else if (curlOrNode === 'node') {
             console.log('node happened!');
             $('.api-version-node').show();
             $('.api-version-curl').hide();
+            $('.request-body-input-style').hide();
+            inputMethod = 'raw';
         }
     });
 
-    $('.request-types').change(function(eventData) {
+    $('.request-types-curl').change(function(eventData) {
         var filler;
-        method = $('.request-types').val();
+        method = $('.request-types-curl').val();
         if (method === 'get') {
             filler = GET_EXAMPLE_URL;
         } else if (method === 'post') {
@@ -54,6 +67,33 @@ $(document).ready(function() {
         $('.url-field').attr('value', filler);
     });
 
+    $('.request-types-node').change(function(eventData) {
+        method = $('.request-types-node').val();
+        if (method === 'get') {
+            $('.request-body-text').text(GET_NODE);
+        } else if (method === 'post') {
+            $('.request-body-text').text(POST_NODE);
+        } else if (method === 'put') {
+            $('.request-body-text').text(PUT_NODE);
+        } else if (method === 'delete') {
+            $('.request-body-text').text(DELETE_NODE);
+        } else {
+            $('.request-body-text').text('');
+        }
+    });
+
+    function replaceAll(find, replace, str) {
+        return str.replace(new RegExp(find, 'g'), replace);
+    }
+
+    function updateResponse(text) {
+        var nodeResponse = text;
+        if (typeof text == 'object') {
+            var nodeResponse = JSON.stringify(text, null, 3);
+        }
+        $('.response-text').text(nodeResponse);
+    }
+
     $('.send-button').click(function(eventData) {
         var body;
 
@@ -62,11 +102,21 @@ $(document).ready(function() {
         } else if (inputMethod === 'form-data') {
             body = generateObjectWithFormData();
         }
+        var response = '';
+
+        if (curlOrNode === 'node') {
+            body = replaceAll("console.log", "updateResponse", body);
+            console.log(body);
+            response = eval(body);
+            reloadAirtable();
+            return;
+        }
+
         if (body) {
             body = JSON.parse(body);
         }
         var url = $('.url-field').val() + '';
-        var response = '';
+
 
         console.log('send button pressed!');
         console.log('method: ', method);
@@ -94,7 +144,6 @@ $(document).ready(function() {
                 reloadAirtable();
             });
         } else if (method === 'delete') {
-            //eval("function(){alert ('hi');}");
             req.deleteReq(url, API_KEY, function(res) {
                 console.log(res);
                 response = JSON.stringify(res, null, 3);
